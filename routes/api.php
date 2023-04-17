@@ -14,6 +14,7 @@ Route::delete('/mentors/{id}', [MentorController::class, 'destroy']); // Endpoin
 // Rute untuk Stream
 Route::post('/streams', [StreamController::class, 'store']); // Endpoint POST /streams untuk menambahkan stream baru
 Route::get('/streams', [StreamController::class, 'index']); // Endpoint GET /streams untuk mengambil daftar stream
-Route::get('/streams/{id}', [StreamController::class, 'show']); // Endpoint GET /streams/{id} untuk mengambil detail stream berdasarkan ID
+Route::get('/streams/{code_id}', [StreamController::class, 'show'])->name('api.streams.show');
+ // Endpoint GET /streams/{id} untuk mengambil detail stream berdasarkan CODE_ID
 Route::put('/streams/{id}', [StreamController::class, 'update']); // Endpoint PUT /streams/{id} untuk mengupdate data stream berdasarkan ID
 Route::delete('/streams/{id}', [StreamController::class, 'destroy']); // Endpoint DELETE /streams/{id} untuk menghapus stream berdasarkan ID

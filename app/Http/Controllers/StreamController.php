@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\StreamDetailResource;
 use App\Models\Stream;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -42,33 +43,50 @@ class StreamController extends Controller
             'title' => 'required',
             'link' => 'required',
             'category' => 'required',
-            'thumbnail' => 'required|image' // tambahkan validasi untuk file thumbnail, harus berupa gambar
+            'thumbnail' => 'required|image'
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422); // ubah response menjadi JSON dengan status code 422 untuk error validasi
+            return response()->json($validator->errors(), 422);
         }
 
-        // Simpan file gambar ke storage
+
         $thumbnailPath = $request->file('thumbnail')->store('public/thumbnails');
 
-        // Generate nama unik untuk file gambar
+
         $thumbnailName = Str::random(40) . '.' . $request->file('thumbnail')->getClientOriginalExtension();
 
-        // Pindahkan file gambar ke folder yang diinginkan
+
         Storage::move($thumbnailPath, 'public/thumbnails/' . $thumbnailName);
 
-        // Simpan data ke tabel streams menggunakan objek model Stream
-        $stream = new Stream();
+
+        $stream= new Stream();
         $stream->title = $request->input('title');
         $stream->code_id = $request->input('code_id');
         $stream->mentor_id = $request->input('mentor_id');
         $stream->name = $request->input('name');
         $stream->category = $request->input('category');
         $stream->link = $request->input('link');
-        $stream->thumbnail = $thumbnailName; // Simpan nama file gambar ke kolom thumbnail
+        $stream->thumbnail = $thumbnailName;
         $stream->save();
 
         return response()->json($stream, 201);
     }
+
+    public function show($code_id)
+    {
+        $stream = Stream::where('code_id', $code_id)->first();
+
+        if ($stream) {
+            $streamDetailResource = new StreamDetailResource($stream);
+            $response = $streamDetailResource->toArray(request());
+
+            return response()->json(['data' => $response], 200);
+        } else {
+
+            return response()->json(['error' => 'Masukan CODE_ID Dengan Benar'], 404);
+        }
+    }
+
+
 }

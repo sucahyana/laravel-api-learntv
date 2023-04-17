@@ -76,12 +76,21 @@ class Stream extends Model
 
             if ($lastStream) {
                 $codeId = $lastStream->code_id;
-                $lastCodeId = intval(substr($codeId, -1)); // Mengambil angka terakhir dari kode_id
-                $newCodeId = $lastCodeId + 1;
+                $lastCodeId = intval(substr($codeId, -2)); // Mengambil dua angka terakhir dari kode_id
+                if ($lastCodeId >= 9) {
+                    $newCodeId = str_pad(($lastCodeId + 1), 2, '0', STR_PAD_LEFT); // Menambahkan 1 dan menggunakan str_pad untuk menambahkan angka 0 di depan
+                } else {
+                    $newCodeId = '0' . ($lastCodeId + 1); // Menambahkan 0 di depan jika angka kurang dari 10
+                }
                 $model->code_id = $model->attributes['code_id'] . $newCodeId; // Menyusun kode_id baru
             } else {
-                $model->code_id = $model->attributes['code_id'] . '1'; // Mengatur kode_id awal
+                $model->code_id = $model->attributes['code_id'] . '01'; // Mengatur kode_id awal
             }
+
+
+
+
+
 
 
 

@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('mentors', function (Blueprint $table) {
             $table->id();
+            $table->integer('number');
             $table->string('name');
             $table->string('category');
-            // tambahkan kolom-kolom lain sesuai kebutuhan Anda
+
             $table->timestamps();
         });
     }

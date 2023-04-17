@@ -49,7 +49,7 @@ class MentorController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return response()->json($validator->errors(), 422); // ubah response menjadi JSON dengan status code 422 untuk error validasi
         }
 
         $mentor = Mentor::create($request->all());

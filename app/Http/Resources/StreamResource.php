@@ -24,7 +24,7 @@ class StreamResource extends JsonResource
             'name'=>$this->name,
             'category'=>$this->category,
             'link'=>$this->link,
-            'thumbanail'=>asset('storage/thumbnails/' . $this->thumbnail),
+            'thumbnail'=>asset('storage/thumbnails/' . $this->thumbnail),
         ];
     }
 }

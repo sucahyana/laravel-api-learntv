@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('streams', function (Blueprint $table) {
             $table->id();
+            $table->integer('number');
             $table->string('title');
             $table->string('code_id');
             $table->unsignedBigInteger('mentor_id');
+            $table->string('name');
             $table->string('category');
             $table->string('link');
             $table->string('thumbnail');
 
             $table->foreign('mentor_id')->references('id')->on('mentors');
-            // tambahkan kolom-kolom lain sesuai kebutuhan Anda
+
             $table->timestamps();
         });
     }
